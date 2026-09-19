@@ -19,7 +19,7 @@ function renderHomeView() {
           preload="auto" 
           class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0">
         
-          <source src="assets/video/bgvideo.mp4" type="video/mp4">
+          <source src="https://cloudinary.com" type="video/mp4">
         </video>
 
         <!-- Dark Blue Tint Overlay (Keeps Text & Form Legible) -->
