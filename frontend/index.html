@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petros Construction | High-Performance Structures</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dodgerblue: {
+              DEFAULT: '#1E90FF',
+              hover: '#1C86EE',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen font-sans antialiased selection:bg-dodgerblue selection:text-white">
+
+  <!-- HEADER & RESPONSIVE NAVBAR -->
+  <header class="bg-gray-100 border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- YOUR CUSTOM LOGO PHOTO HERE -->
+        <a href="#home" class="flex items-center gap-3 shrink-0">
+          
+           <img src="assets/images/qt=q_95.webp" alt="Petros Construction Logo" class="h-16 sm:h-20 absolute top-2 left-4 z-50 drop-shadow-md transition-transform hover:scale-105" />
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-bold text-gray-600">
+          <a href="#home" class="hover:text-dodgerblue transition-colors">Home</a>
+          <a href="#about" class="hover:text-dodgerblue transition-colors">About</a>
+          <a href="#services" class="hover:text-dodgerblue transition-colors">Services</a>
+          <a href="#portfolio" class="hover:text-dodgerblue transition-colors">Portfolio</a>
+          <a href="#reviews" class="hover:text-dodgerblue transition-colors">Reviews</a>
+          <a href="#contact" class="hover:text-dodgerblue transition-colors">Contact</a>
+        </nav>
+
+<!-- Relative path (removes the leading slash) -->
+
+
+        <!-- CTA Button -->
+        <div class="hidden sm:flex items-center">
+          <button type="button" onclick="window.scrollToQuickQuote()" class="bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold px-6 py-2.5 rounded-lg shadow-sm transition-all active:scale-95">
+            Get Quote
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="flex md:hidden items-center">
+          <button 
+            id="mobile-menu-btn" 
+            type="button" 
+            onclick="window.toggleMobileMenu()" 
+            aria-label="Toggle navigation menu"
+            class="p-2.5 rounded-lg text-gray-700 hover:text-dodgerblue hover:bg-gray-100 focus:outline-none"
+          >
+            <i id="mobile-menu-icon" class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white px-4 pt-4 pb-6 space-y-4 shadow-xl">
+      <nav class="flex flex-col space-y-1 text-base font-bold text-gray-700">
+        <a href="#home" onclick="window.closeMobileMenu()" class="px-4 py-3 rounded-lg hover:bg-gray-100 hover:text-dodgerblue">Home</a>
+        <a href="#about" onclick="window.closeMobileMenu()" class="px-4 py-3 rounded-lg hover:bg-gray-100 hover:text-dodgerblue">About</a>
+        <a href="#services" onclick="window.closeMobileMenu()" class="px-4 py-3 rounded-lg hover:bg-gray-100 hover:text-dodgerblue">Services</a>
+        <a href="#portfolio" onclick="window.closeMobileMenu()" class="px-4 py-3 rounded-lg hover:bg-gray-100 hover:text-dodgerblue">Portfolio</a>
+        <a href="#reviews" onclick="window.closeMobileMenu()" class="px-4 py-3 rounded-lg hover:bg-gray-100 hover:text-dodgerblue">Reviews</a>
+        <a href="#contact" onclick="window.closeMobileMenu()" class="px-4 py-3 rounded-lg hover:bg-gray-100 hover:text-dodgerblue">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- DYNAMIC VIEW CONTAINER -->
+  <main id="app" class="flex-grow w-full overflow-x-hidden"></main>
+
+  <!-- FOOTER -->
+  <footer class="bg-blue-950 text-gray-400 py-8 border-t border-blue-900 text-xs text-center mt-auto">
+    <div class="max-w-7xl mx-auto px-4">
+      <p>&copy; 2026 Petros Construction. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- VIEW ROUTER SCRIPTS -->
+  <script src="views/views/homeView.js"></script>
+  <script src="views/views/aboutView.js"></script>
+  <script src="views/views/servicesView.js"></script>
+  <script src="views/views/portfolioView.js"></script>
+  <script src="views/views/reviewsView.js"></script>
+  <script src="views/views/contactView.js"></script>
+  
+  <script>
+    window.toggleMobileMenu = function (forceState) {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (!menu) return;
+
+      const shouldShow = forceState !== undefined ? forceState : menu.classList.contains('hidden');
+      menu.classList.toggle('hidden', !shouldShow);
+      if (icon) icon.className = shouldShow ? 'fa-solid fa-xmark text-xl' : 'fa-solid fa-bars text-xl';
+    };
+
+    window.closeMobileMenu = function () { window.toggleMobileMenu(false); };
+
+    window.scrollToQuickQuote = function (serviceName = '') {
+      window.closeMobileMenu();
+      const heroForm = document.getElementById('hero-quick-quote-form');
+      if (heroForm) {
+        heroForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        window.location.hash = '#home';
+      }
+    };
+
+    const routes = {
+      '#home': typeof renderHomeView !== 'undefined' ? renderHomeView : () => '<h2>Home View</h2>',
+      '#about': typeof renderAboutView !== 'undefined' ? renderAboutView : () => '<div class="p-12 text-center bg-white"><h2 class="text-2xl font-bold text-blue-950">About Us</h2></div>',
+      '#services': typeof renderServicesView !== 'undefined' ? renderServicesView : () => '<div class="p-12 text-center bg-white"><h2 class="text-2xl font-bold text-blue-950">Services</h2></div>',
+      '#portfolio': typeof renderPortfolioView !== 'undefined' ? renderPortfolioView : () => '<div class="p-12 text-center bg-white"><h2 class="text-2xl font-bold text-blue-950">Portfolio</h2></div>',
+      '#reviews': typeof renderReviewsView !== 'undefined' ? renderReviewsView : () => '<div class="p-12 text-center bg-white"><h2 class="text-2xl font-bold text-blue-950">Reviews</h2></div>',
+      '#contact': typeof renderContactView !== 'undefined' ? renderContactView : () => '<div class="p-12 text-center bg-white"><h2 class="text-2xl font-bold text-blue-950">Contact</h2></div>'
+    };
+
+    function router() {
+      window.closeMobileMenu();
+      const hash = window.location.hash || '#home';
+      const viewFn = routes[hash] || routes['#home'];
+      const appContainer = document.getElementById('app');
+      if (appContainer) {
+        appContainer.innerHTML = viewFn();
+        window.scrollTo(0, 0);
+      }
+    }
+
+    window.addEventListener('hashchange', router);
+    window.addEventListener('load', router);
+  </script>
+</body>
+</html>
