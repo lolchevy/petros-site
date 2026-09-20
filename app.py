@@ -11,14 +11,11 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-@app.route('/')
-def home():
+# Force every page request and sub-link straight to your main template
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
     return app.send_static_file('index.html')
-
-@app.route('/index.html')
-def index_html():
-    return app.send_static_file('index.html')
-
 # ------------------------------------------------------------------
 # CONFIGURATION
 # ------------------------------------------------------------------
