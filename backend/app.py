@@ -18,7 +18,7 @@ SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
 SMTP_USER = os.environ.get("SMTP_USER", "kelseamoore74@gmail.com")
 SMTP_PASS = os.environ.get("SMTP_PASS", "ovoarsmegruriavw")
-OWNER_EMAIL = os.environ.get("OWNER_EMAIL", "kelseamoore74@gmail.com")
+OWNER_EMAIL = os.environ.get("OWNER_EMAIL", "mikepetros55@gmail.com")
 
 # Global in-memory storage for reviews
 if 'reviews_database' not in globals():
