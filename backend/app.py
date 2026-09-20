@@ -8,9 +8,13 @@ from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return app.send_static_file('index.html')
 # ------------------------------------------------------------------
 # CONFIGURATION
 # ------------------------------------------------------------------
