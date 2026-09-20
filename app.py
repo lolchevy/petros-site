@@ -8,13 +8,13 @@ from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-app = Flask(__name__, static_folder='.', static_url_path='')
+app = Flask(__name__, static_folder='.', template_folder='.',static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-# Force every page request and sub-link straight to your main template
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
+@app.route('/<path:filename>')
+def serve_static_files(filename):
+    if filename.endswith('.js') or filename.endswith('.webp') or filename.endswith('.jpg'):
+        return app.send_static_file(filename)
     return app.send_static_file('index.html')
 # ------------------------------------------------------------------
 # CONFIGURATION
