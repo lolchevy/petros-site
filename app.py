@@ -13,8 +13,11 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/<path:filename>')
 def serve_static_files(filename):
-    if filename.endswith('.js') or filename.endswith('.webp') or filename.endswith('.jpg') or filename.endswith('.png') or filename.endswith('.css'):
-        return app.send_static_file(filename)
+    # Automatically extract just the file name, ignoring any folder paths like views/views/ or assets/images/
+    clean_name = os.path.basename(filename)
+
+    if clean_name.endswith('.js') or clean_name.endswith('.webp') or clean_name.endswith('.jpg') or clean_name.endswith('.png') or clean_name.endswith('.css'):
+        return app.send_static_file(clean_name)
     return app.send_static_file('index.html')
 
 @app.route('/', defaults={'path': ''})
