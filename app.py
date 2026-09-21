@@ -11,18 +11,20 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='frontend', template_folder='frontend', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    return app.send_static_file('index.html')
+@app.route('/views/views/<path:filename>')
+@app.route('/frontend/views/<path:filename>')
+def serve_views(filename):
+    return app.send_static_file(f'views/{filename}')
+
+@app.route('/assets/images/<path:filename>')
+@app.route('/frontend/assets/<path:filename>')
+def serve_assets(filename):
+    return app.send_static_file(f'assets/{filename}')
 
 @app.route('/<path:filename>')
 def serve_static_files(filename):
-    # Automatically extract just the file name, ignoring any folder paths like views/views/ or assets/images/
-    clean_name = os.path.basename(filename)
-
-    if clean_name.endswith('.js') or clean_name.endswith('.webp') or clean_name.endswith('.jpg') or clean_name.endswith('.png') or clean_name.endswith('.css'):
-        return app.send_static_file(clean_name)
+    if filename.endswith('.js') or filename.endswith('.webp') or filename.endswith('.jpg') or filename.endswith('.png') or filename.endswith('.css'):
+        return app.send_static_file(filename)
     return app.send_static_file('index.html')
 # ------------------------------------------------------------------
 # CONFIGURATION
