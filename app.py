@@ -8,23 +8,20 @@ from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-app = Flask(__name__, static_folder='.', template_folder='.', static_url_path='')
+app = Flask(__name__, static_folder='frontend', template_folder='frontend', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-@app.route('/views/views/<path:filename>')
-@app.route('/frontend/views/<path:filename>')
+@app.route('/views/<path:filename>')
 def serve_views(filename):
     return app.send_static_file(f'views/{filename}')
 
-@app.route('/assets/images/<path:filename>')
-@app.route('/frontend/assets/<path:filename>')
+@app.route('/assets/<path:filename>')
 def serve_assets(filename):
     return app.send_static_file(f'assets/{filename}')
 
-@app.route('/<path:filename>')
-def serve_static_files(filename):
-    if filename.endswith('.js') or filename.endswith('.webp') or filename.endswith('.jpg') or filename.endswith('.png') or filename.endswith('.css'):
-        return app.send_static_file(filename)
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
     return app.send_static_file('index.html')
 # ------------------------------------------------------------------
 # CONFIGURATION
