@@ -11,6 +11,11 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='frontend', template_folder='frontend', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return app.send_static_file('index.html')
+
 @app.route('/<path:filename>')
 def serve_static_files(filename):
     # Automatically extract just the file name, ignoring any folder paths like views/views/ or assets/images/
@@ -18,11 +23,6 @@ def serve_static_files(filename):
 
     if clean_name.endswith('.js') or clean_name.endswith('.webp') or clean_name.endswith('.jpg') or clean_name.endswith('.png') or clean_name.endswith('.css'):
         return app.send_static_file(clean_name)
-    return app.send_static_file('index.html')
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
     return app.send_static_file('index.html')
 # ------------------------------------------------------------------
 # CONFIGURATION
