@@ -11,10 +11,14 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='frontend', template_folder='frontend', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+# Handle the double 'views/views' path requested by your Javascript code
+@app.route('/views/views/<path:filename>')
 @app.route('/views/<path:filename>')
 def serve_views(filename):
     return app.send_static_file(f'views/{filename}')
 
+# Handle the double 'assets/images' path requested by your Javascript code
+@app.route('/assets/images/<path:filename>')
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
     return app.send_static_file(f'assets/{filename}')
