@@ -20,8 +20,8 @@ def catch_all(path):
 # ------------------------------------------------------------------
 SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
-SMTP_USER = os.environ.get("SMTP_USER", "kelseamoore74@gmail.com")
-SMTP_PASS = os.environ.get("SMTP_PASS", "ovoarsmegruriavw")
+SMTP_USER = os.environ.get("SMTP_USER", "mikepetros55@gmail.com")
+SMTP_PASS = os.environ.get("SMTP_PASS", "tztuteqxttzyxlal")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL", "mikepetros55@gmail.com")
 
 # Global in-memory storage for reviews
