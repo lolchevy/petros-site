@@ -31,17 +31,17 @@ function renderServicesView() {
             <div class="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div class="h-52 w-full bg-gray-200 overflow-hidden relative">
-                  <img src="assets/images/IMG_3532.jpg" onerror="this.src='assets/images/IMG_3532.jpg'" alt="Commercial Construction" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                  <img src="assets/images/IMG_3532.jpg" onerror="this.src='assets/images/IMG_3532.jpg'" alt="Concrete Shell Contractor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
                 <div class="p-6 space-y-3">
-                  <h3 class="font-bold text-blue-950 text-xl">Commercial Construction</h3>
+                  <h3 class="font-bold text-blue-950 text-xl">Concrete Shell Contractor</h3>
                   <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
                     We pour large amounts of concrete for any size building, including office spaces, retail complexes, and warehouses. We handle everything up to custom structural steel framing.
                   </p>
                 </div>
               </div>
               <div class="p-6 pt-0">
-                <button type="button" onclick="window.openServiceModal('Commercial Construction')" class="w-full bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                <button type="button" onclick="window.openServiceModal('Concrete Shell Contractor')" class="w-full bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
                   <span>Request Quote</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
@@ -73,7 +73,7 @@ function renderServicesView() {
             <div class="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div class="h-52 w-full bg-gray-200 overflow-hidden relative">
-                  <img src="assets/images/IMG_3514.jpg" onerror="this.src='assets/images/IMG_3514.jpg'" alt="Home Additions & Extensions" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                  <img src="assets/images/IMG_7681.jpg" onerror="this.src='assets/images/IMG_7681.jpg'" alt="Home Additions & Extensions" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
                 <div class="p-6 space-y-3">
                   <h3 class="font-bold text-blue-950 text-xl">Home Additions & Extensions</h3>
@@ -115,17 +115,17 @@ function renderServicesView() {
             <div class="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div class="h-52 w-full bg-gray-200 overflow-hidden relative">
-                  <img src="assets/images/IMG_2853.jpg" onerror="this.src='assets/images/IMG_2853.jpg'" alt="Excavation & Retaining Walls" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                  <img src="assets/images/IMG_7679.jpg" onerror="this.src='assets/images/IMG_7679.jpg'" alt="Advanced Structural Contractor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
                 <div class="p-6 space-y-3">
-                  <h3 class="font-bold text-blue-950 text-xl">Excavation & Retaining Walls</h3>
+                  <h3 class="font-bold text-blue-950 text-xl">Advanced Structural Contractor</h3>
                   <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                    Complete site preparation, heavy earthmoving, utility trenching, and paving infrastructure. We also build custom structural retaining walls designed for long-term safety and stability.
+                    We build the durable structural backbone that stabilizes your commercial or residential projects from the ground up.
                   </p>
                 </div>
               </div>
               <div class="p-6 pt-0">
-                <button type="button" onclick="window.openServiceModal('Excavation & Retaining Walls')" class="w-full bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                <button type="button" onclick="window.openServiceModal('Advanced Structural Contractor')" class="w-full bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
                   <span>Request Quote</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>

@@ -185,7 +185,7 @@ function renderContactView() {
                   <i class="fa-solid fa-bolt"></i> Rapid Response Guarantee
                 </div>
                 <p class="text-[11px] text-gray-300 leading-relaxed">
-                  All consultations and quote inquiries are reviewed by a general manager within 24 business hours.
+                  All consultations and quote inquiries are reviewed by a general manager within a timely manner.
                 </p>
               </div>
             </div>
