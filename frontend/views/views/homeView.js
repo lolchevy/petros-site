@@ -19,7 +19,7 @@ function renderHomeView() {
           preload="auto" 
           class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0">
         
-          <source src="https://res.cloudinary.com/at6jozhq/video/upload/v1789863781/bgvideo.mp4" type="video/mp4">
+          <source src="https://res.cloudinary.com/at6jozhq/video/upload/v1789863781/copy_0AC230CD-6050-4652-8E61-86B3AAAB2045.mp4" type="video/mp4">
         </video>
 
         <!-- Dark Blue Tint Overlay (Keeps Text & Form Legible) -->
@@ -34,7 +34,7 @@ function renderHomeView() {
               <i class="fa-solid fa-helmet-safety mr-1.5"></i> General Contracting & Infrastructure
             </span>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight drop-shadow-md">
-              Building High-Performance <span class="text-dodgerblue">Structures</span>
+              Building High-Performance <span class="text-dodgerblue">Concrete Structures</span>
             </h1>
             <p class="text-gray-200 text-base sm:text-lg max-w-2xl leading-relaxed">
               Petros Construction turns structural blueprints into reality. We deliver commercial developments, quality concrete work, and residential builds with uncompromising standards.
@@ -109,7 +109,7 @@ function renderHomeView() {
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div class="space-y-4">
               <span class="text-dodgerblue text-xs font-extrabold uppercase tracking-widest">About Petros Construction</span>
-              <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-950">Two Decades of Engineering Excellence</h2>
+              <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-950">Three Decades of Engineering Excellence</h2>
               <p class="text-gray-600 text-sm leading-relaxed">
                 Built on structural precision and dependable delivery, Petros Construction handles everything from large-scale commercial framing to high-density residential projects. We provide full-service management to deliver your project seamlessly from ground up.
               </p>
@@ -122,7 +122,7 @@ function renderHomeView() {
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div class="bg-white p-6 rounded-xl border border-gray-200 text-center shadow-sm">
-                <div class="text-4xl font-extrabold text-dodgerblue">250+</div>
+                <div class="text-4xl font-extrabold text-dodgerblue">1000+</div>
                 <div class="text-xs font-bold text-blue-950 mt-1 uppercase">Project Completed</div>
               </div>
               <div class="bg-white p-6 rounded-xl border border-gray-200 text-center shadow-sm">
@@ -130,7 +130,7 @@ function renderHomeView() {
                 <div class="text-xs font-bold text-blue-950 mt-1 uppercase">Safety Record</div>
               </div>
               <div class="bg-white p-6 rounded-xl border border-gray-200 text-center shadow-sm">
-                <div class="text-4xl font-extrabold text-dodgerblue">20+</div>
+                <div class="text-4xl font-extrabold text-dodgerblue">30+</div>
                 <div class="text-xs font-bold text-blue-950 mt-1 uppercase">Years Experience</div>
               </div>
               <div class="bg-white p-6 rounded-xl border border-gray-200 text-center shadow-sm">
@@ -155,15 +155,15 @@ function renderHomeView() {
             <div class="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-xl transition-all">
               <div>
                 <div class="h-44 w-full bg-gray-200 overflow-hidden relative">
-                  <img src="assets/images/IMG_3532.jpg" onerror="this.src='IMG_3532.jpg'" alt="Commercial Construction" class="w-full h-full object-cover">
+                  <img src="assets/images/IMG_3532.jpg" onerror="this.src='IMG_3532.jpg'" alt="Concrete Shell Contractor" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 space-y-3">
-                  <h3 class="font-bold text-blue-950 text-lg">Commercial Construction</h3>
-                  <p class="text-xs text-gray-600 leading-relaxed">We pour large amounts of concrete for any size building, including office spaces, retail complexes, and warehouses.</p>
+                  <h3 class="font-bold text-blue-950 text-lg">Concrete Shell Contractor</h3>
+                  <p class="text-xs text-gray-600 leading-relaxed">We specialize in creating durable concrete shells for various applications, ensuring structural integrity and longevity.</p>
                 </div>
               </div>
               <div class="p-6 pt-0">
-                <button type="button" onclick="window.scrollToQuickQuote('Commercial Construction')" class="w-full bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all flex items-center justify-center gap-1.5">
+                <button type="button" onclick="window.scrollToQuickQuote('Concrete Shell Contractor')" class="w-full bg-dodgerblue hover:bg-dodgerblue-hover text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all flex items-center justify-center gap-1.5">
                   <span>Request Quote</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                 </button>
@@ -191,7 +191,7 @@ function renderHomeView() {
             <div class="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-xl transition-all">
               <div>
                 <div class="h-44 w-full bg-gray-200 overflow-hidden relative">
-                  <img src="assets/images/IMG_3514.jpg" onerror="this.src='IMG_3514.jpg'" alt="Home Additions & Extensions" class="w-full h-full object-cover">
+                  <img src="assets/images/IMG_7681.jpg" onerror="this.src='assets/images/IMG_7681.jpg'" alt="Home Additions & Extensions" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 space-y-3">
                   <h3 class="font-bold text-blue-950 text-lg">Home Additions & Extensions</h3>
