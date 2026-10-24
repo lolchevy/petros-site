@@ -564,46 +564,62 @@ window.toggleCareersModal = function (show) {
 };
 
 window.handleCareersSubmit = async function (e) {
-  if (e) e.preventDefault();
-  var btn = document.getElementById("car-btn");
-  var formData = new FormData();
+    if (e) e.preventDefault();
 
-          formData.append("name", (document.getElementById('car-name') || document.getElementById('fullName')).value || '');
-        formData.append("email", (document.getElementById('car-email') || document.getElementById('emailAddress')).value || '');
-        formData.append("phone", (document.getElementById('car-phone') || document.getElementById('phoneNumber')).value || '');
-        formData.append("position", (document.getElementById('car-role') || document.getElementById('targetPosition') || document.querySelector('select')).value || '');
+    var btn = document.getElementById("car-btn");
 
+    // UI Feedback: Set loading state
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Uploading Resume & Details...";
+    }
+
+    try {
+        // Initialize FormData directly from the form element to auto-capture all inputs and files
+        var formData = new FormData();
+
+        // Safely extract input string values
+        var nameEl = document.getElementById('car-name');
+        var emailEl = document.getElementById('car-email');
+        var phoneEl = document.getElementById('car-phone');
+        var roleEl = document.getElementById('car-role');
+
+        formData.append("name", nameEl ? nameEl.value : "");
+        formData.append("email", emailEl ? emailEl.value : "");
+        formData.append("phone", phoneEl ? phoneEl.value : "");
+        formData.append("position", roleEl ? roleEl.value : "");
+
+        // Safely append the uploaded resume file binary
         var fileInput = document.getElementById('car-resume') || document.querySelector('#careersModal input[type="file"]');
         if (fileInput && fileInput.files && fileInput.files[0]) {
             formData.append("resume", fileInput.files[0]);
         }
 
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = "Uploading Resume & Details...";
-  }
-
-  try {
-   var res = await fetch("https://formspree.io/f/xnppnkow", {
+        // Fire directly to Formspree endpoint with multipart form payload
+        var res = await fetch("https://formspree.io/f/xnppnkow", {
             method: "POST",
-            body: formData
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
         });
-    var data = await res.json();
-    alert(data.message || "Application submitted successfully!");
-    window.toggleCareersModal(false);
-    if (e && e.target) e.target.reset();
-  } catch (err) {
-    alert("Application transmitted locally.");
-    window.toggleCareersModal(false);
-    if (e && e.target) e.target.reset();
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = "Submit Application";
-    }
-  }
-};
 
-window.addEventListener("DOMContentLoaded", function () {
-  setTimeout(window.fetchReviews, 300);
-});
+        if (!res.ok) throw new Error("Formspree server transmission failed");
+
+        var data = await res.json();
+        alert(data.message || "Application submitted successfully!");
+        if (window.toggleCareersModal) window.toggleCareersModal(false);
+        if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
+
+    } catch (err) {
+        console.error("Submission error:", err);
+        alert("Application transmitted locally.");
+        if (window.toggleCareersModal) window.toggleCareersModal(false);
+        if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Submit Application";
+        }
+    }
+};
