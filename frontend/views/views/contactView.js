@@ -246,13 +246,15 @@ window.handleCareerPortalSubmit = async function (e) {
   var btn = document.getElementById("cp-btn");
   var formData = new FormData();
 
-  formData.append("name", document.getElementById("cp-name") ? document.getElementById("cp-name").value : "");
-  formData.append("email", document.getElementById("cp-email") ? document.getElementById("cp-email").value : "");
+        formData.append("name", (document.getElementById('cp-name') || document.getElementById('fullName')).value || '');
+        formData.append("email", (document.getElementById('cp-email') || document.getElementById('emailAddress')).value || '');
+        formData.append("phone", (document.getElementById('cp-phone') || document.getElementById('phoneNumber')).value || '');
+        formData.append("position", (document.getElementById('cp-role') || document.getElementById('targetPosition') || document.querySelector('select')).value || '');
 
-  var fileInput = document.getElementById("cp-resume");
-  if (fileInput && fileInput.files && fileInput.files[0]) {
-    formData.append("resume", fileInput.files[0]);
-  }
+        var fileInput = document.getElementById('cp-resume') || document.querySelector('input[type="file"]');
+        if (fileInput && fileInput.files && fileInput.files) {
+            formData.append("resume", fileInput.files);
+        }
 
   if (btn) {
     btn.disabled = true;
