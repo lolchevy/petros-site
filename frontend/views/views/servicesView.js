@@ -307,15 +307,15 @@ window.handleCustomRequestSubmit = async function (e) {
   var btn = document.getElementById('cr-btn');
   var formData = new FormData();
 
-  formData.append("name", document.getElementById('cr-name') ? document.getElementById('cr-name').value : '');
-  formData.append("email", document.getElementById('cr-email') ? document.getElementById('cr-email').value : '');
-  formData.append("phone", document.getElementById('cr-phone') ? document.getElementById('cr-phone').value : '');
-  formData.append("description", document.getElementById('cr-desc') ? document.getElementById('cr-desc').value : '');
+ formData.append("name", document.getElementById('fullName') ? document.getElementById('fullName').value : '');
+        formData.append("email", document.getElementById('emailAddress') ? document.getElementById('emailAddress').value : '');
+        formData.append("phone", document.getElementById('phoneNumber') ? document.getElementById('phoneNumber').value : '');
+        formData.append("message", document.getElementById('projectDescription') ? document.getElementById('projectDescription').value : '');
 
-  var fileInput = document.getElementById('cr-file');
-  if (fileInput && fileInput.files && fileInput.files[0]) {
-    formData.append("project_file", fileInput.files[0]);
-  }
+        var fileInput = document.getElementById('projectFile') || document.querySelector('input[type="file"]');
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+            formData.append("attachment", fileInput.files[0]);
+        }
 
   if (btn) {
     btn.disabled = true;
