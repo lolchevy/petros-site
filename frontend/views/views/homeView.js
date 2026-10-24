@@ -508,21 +508,37 @@ window.handleReviewSubmit = async function (e) {
     btn.textContent = "Submitting...";
   }
 
-  try {
-    var res = await fetch("https://petros-site.onrender.com/");
-    var data = await res.json();
-    alert(data.message || "Review submitted for moderation!");
-    if (e && e.target) e.target.reset();
-  } catch (err) {
-    alert("Review recorded locally.");
-    if (e && e.target) e.target.reset();
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = "Submit Review for Moderation";
-    }
-  }
-};
+       try {
+            // 1. Send the review to your Render backend database for the Admin Panel
+            await fetch("https://onrender.com", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            // 2. Shoot an instant email notification copy straight to your Formspree inbox!
+            var res = await fetch("https://formspree.io", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    subject: "New Customer Review Submitted For Approval",
+                    name: payload.name || (document.getElementById('rev-name') ? document.getElementById('rev-name').value : ''),
+                    rating: payload.rating,
+                    review_text: payload.text || (document.getElementById('rev-text') ? document.getElementById('rev-text').value : '')
+                })
+            });
+
+            alert("Review submitted for moderation!");
+            if (e && e.target) e.target.reset();
+        } catch (err) {
+            alert("Network error. Please try submitting your review again!");
+            if (e && e.target) e.target.reset();
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = "Submit Review for Moderation";
+            }
+        }
 
 // 4. CAREERS MODAL & RESUME HANDLER
 window.toggleCareersModal = function (show) {
