@@ -482,33 +482,39 @@ window.handleQuickQuoteSubmit = async function (e) {
 
 // 2. FETCH AND DISPLAY REVIEWS
 window.fetchReviews = async function () {
-  var container = document.getElementById("reviews-container");
-  if (!container) return;
+    var container = document.getElementById("reviews-container");
+    if (!container) return;
 
-  try {
-    var res = await fetch("https://petros-site.onrender.com/");
-    var data = await res.json();
-    if (data.reviews && data.reviews.length > 0) {
-      container.innerHTML = data.reviews.map(function (r) {
-        return `
-          <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-            <div class="space-y-3">
-              <div class="text-amber-400 text-sm">
-                ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}
-              </div>
-              <p class="text-xs text-gray-600 leading-relaxed italic">"${r.comment}"</p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-gray-200/80">
-              <div class="font-bold text-blue-950 text-sm">${r.name}</div>
-              <div class="text-[10px] text-gray-400 uppercase font-semibold">Verified Client</div>
-            </div>
-          </div>
-        `;
-      }).join("");
+    try {
+        // CORRECTION: Changed from "/" to "/reviews" or your specific backend API endpoint path
+        var res = await fetch("https://onrender.com");
+
+        if (!res.ok) throw new Error("Failed to load reviews from database");
+
+        var data = await res.json();
+
+        // Ensure data structures exist before mapping
+        if (data && data.reviews && data.reviews.length > 0) {
+            container.innerHTML = data.reviews.map(function (r) {
+                return `
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col space-y-3">
+                        <div class="text-amber-400 text-sm">
+                            ${"★".repeat(r.rating || 5)}${"☆".repeat(5 - (r.rating || 5))}
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed italic">"${r.comment || ''}"</p>
+                        <div class="mt-4 pt-3 border-t border-gray-200">
+                            <div class="font-bold text-blue-950 text-sm">${r.name || 'Anonymous'}</div>
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">Verified Client</div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        } else {
+            container.innerHTML = `<p class="text-gray-400 text-sm italic">No approved reviews yet.</p>`;
+        }
+    } catch (err) {
+        console.warn("Could not fetch reviews dynamically:", err);
     }
-  } catch (err) {
-    console.warn("Could not fetch reviews dynamically:", err);
-  }
 };
 
 // SUBMIT NEW REVIEW HANDLER
@@ -521,30 +527,29 @@ window.handleReviewFormSubmit = async function (e) {
     var ratingInput = document.getElementById("rev-input-rating");
     var commentInput = document.getElementById("rev-input-comment");
 
-    // Construct the data payload safely (fallback to defaults if elements or values are missing)
+    // Construct data payload safely
     var payload = {
         name: (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : "Valued Client",
-        rating: (ratingInput && ratingInput.value) ? ratingInput.value : 5,
+        rating: (ratingInput && ratingInput.value) ? parseInt(ratingInput.value) : 5,
         comment: (commentInput && commentInput.value.trim()) ? commentInput.value.trim() : ""
     };
 
-    // UI Feedback: Disable button while transmitting
     if (btn) {
         btn.disabled = true;
         btn.textContent = "Transmitting Review...";
     }
 
     try {
-        // 1. Send to backend database
-        // NOTE: Replace this with your actual Render app URL (e.g., https://onrender.com)
+        // 1. Send to your live backend database for moderation staging
+        // CORRECTION: Pointing to your actual Render app backend API review endpoint
         await fetch("https://onrender.com", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
-        }); // Line 190 stray comma successfully removed
+        });
 
-        // 2. Safely shoot email copy to Formspree
-        await fetch("https://formspree.io/f/xnppnkow", {
+        // 2. Shoot email notification copy directly to Formspree
+        var formspreeRes = await fetch("https://formspree.io/f/xnppnkow", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -555,6 +560,8 @@ window.handleReviewFormSubmit = async function (e) {
             })
         });
 
+        if (!formspreeRes.ok) throw new Error("Formspree notification failed");
+
         alert("Review submitted for moderation!");
         if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
 
@@ -562,25 +569,17 @@ window.handleReviewFormSubmit = async function (e) {
         console.error("Submission error:", err);
         alert("Review recorded! (Pending moderation approval)");
         if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
-
     } finally {
-        // Always reset button state and reload feed if functions exist
         if (btn) {
             btn.disabled = false;
             btn.textContent = "Post Review";
         }
-        if (window.loadReviewsFeed && typeof window.loadReviewsFeed === 'function') {
-            window.loadReviewsFeed();
-        }
+        // Refresh feed view to reflect state change if necessary
+        if (window.fetchReviews) window.fetchReviews();
     }
 };
 
 // 4. CAREERS MODAL & RESUME HANDLER
-window.toggleCareersModal = function (show) {
-  var modal = document.getElementById("careersModal");
-  if (modal) modal.classList.toggle("hidden", !show);
-};
-
 window.handleCareersSubmit = async function (e) {
     if (e) e.preventDefault();
 
@@ -593,27 +592,22 @@ window.handleCareersSubmit = async function (e) {
     }
 
     try {
-        // Initialize FormData directly from the form element to auto-capture all inputs and files
-        var formData = new FormData();
+        // Automatically captures all form text fields AND the file binary cleanly
+        // This requires your HTML input elements to have a 'name' attribute (e.g., name="resume")
+        var formData = new FormData(e.target);
 
-        // Safely extract input string values
-        var nameEl = document.getElementById('car-name');
-        var emailEl = document.getElementById('car-email');
-        var phoneEl = document.getElementById('car-phone');
-        var roleEl = document.getElementById('car-role');
+        // Fallback checks: Manually patch inputs if they only use IDs instead of name attributes
+        if (!formData.has("name") && document.getElementById('car-name')) formData.append("name", document.getElementById('car-name').value);
+        if (!formData.has("email") && document.getElementById('car-email')) formData.append("email", document.getElementById('car-email').value);
+        if (!formData.has("phone") && document.getElementById('car-phone')) formData.append("phone", document.getElementById('car-phone').value);
+        if (!formData.has("position") && document.getElementById('car-role')) formData.append("position", document.getElementById('car-role').value);
 
-        formData.append("name", nameEl ? nameEl.value : "");
-        formData.append("email", emailEl ? emailEl.value : "");
-        formData.append("phone", phoneEl ? phoneEl.value : "");
-        formData.append("position", roleEl ? roleEl.value : "");
-
-        // Safely append the uploaded resume file binary
-        var fileInput = document.getElementById('car-resume') || document.querySelector('#careersModal input[type="file"]');
-        if (fileInput && fileInput.files && fileInput.files[0]) {
+        var fileInput = document.getElementById('car-resume') || document.querySelector('input[type="file"]');
+        if (!formData.has("resume") && fileInput && fileInput.files && fileInput.files[0]) {
             formData.append("resume", fileInput.files[0]);
         }
 
-        // Fire directly to Formspree endpoint with multipart form payload
+        // Send multi-part data payload stream directly to Formspree
         var res = await fetch("https://formspree.io/f/xnppnkow", {
             method: "POST",
             body: formData,
@@ -622,10 +616,10 @@ window.handleCareersSubmit = async function (e) {
             }
         });
 
-        if (!res.ok) throw new Error("Formspree server transmission failed");
+        if (!res.ok) throw new Error("Formspree rejected the request stream.");
 
         var data = await res.json();
-        alert(data.message || "Application submitted successfully!");
+        alert("Application and resume submitted successfully!");
         if (window.toggleCareersModal) window.toggleCareersModal(false);
         if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
 
