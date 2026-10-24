@@ -325,7 +325,6 @@ window.handleCustomRequestSubmit = async function (e) {
   try {
           var res = await fetch("https://formspree.io/f/xnppnkow", {
             method: "POST",
-            headers: { "Accept": "application/json" },
             body: formData
         });
     var data = await res.json();
