@@ -220,11 +220,11 @@ window.handleGeneralInquirySubmit = async function (e) {
   }
 
   try {
-    var res = await fetch(API_BASE + "/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+     var res = await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
     var data = await res.json();
     alert(data.message || "Message sent successfully!");
     if (e && e.target) e.target.reset();
@@ -260,10 +260,10 @@ window.handleCareerPortalSubmit = async function (e) {
   }
 
   try {
-    var res = await fetch(API_BASE + "/careers", {
-      method: "POST",
-      body: formData
-    });
+  var res = await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            body: formData
+        });
     var data = await res.json();
     alert(data.message || "Application submitted successfully!");
     if (e && e.target) e.target.reset();
