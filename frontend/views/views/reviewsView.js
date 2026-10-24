@@ -163,58 +163,67 @@ window.loadReviewsFeed = async function () {
 
 // SUBMIT NEW REVIEW HANDLER
 window.handleReviewFormSubmit = async function (e) {
-  if (e) e.preventDefault();
-  var btn = document.getElementById("rev-submit-btn");
-  var nameInput = document.getElementById("rev-input-name");
-  var ratingInput = document.getElementById("rev-rating-input");
-  var commentInput = document.getElementById("rev-input-comment");
+    if (e) e.preventDefault();
 
-  var payload = {
-    name: nameInput ? nameInput.value : "Valued Client",
-    rating: ratingInput ? ratingInput.value : 5,
-    comment: commentInput ? commentInput.value : ""
-  };
+    // Safely look up DOM elements
+    var btn = document.getElementById("rev-submit-btn");
+    var nameInput = document.getElementById("rev-input-name");
+    var ratingInput = document.getElementById("rev-input-rating");
+    var commentInput = document.getElementById("rev-input-comment");
 
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = "Transmitting Review...";
-  }
+    // Construct the data payload safely (fallback to defaults if elements or values are missing)
+    var payload = {
+        name: (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : "Valued Client",
+        rating: (ratingInput && ratingInput.value) ? ratingInput.value : 5,
+        comment: (commentInput && commentInput.value.trim()) ? commentInput.value.trim() : ""
+    };
 
-             try {
-            // 1. Send to backend database
-            await fetch("https://onrender.com", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+    // UI Feedback: Disable button while transmitting
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Transmitting Review...";
+    }
 
-            // 2. Safely shoot email copy to Formspree
-            await fetch("https://formspree.io/f/xnppnkow", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    subject: "New Customer Review Submitted For Approval",
-                    name: payload.name || 'Valued Client',
-                    rating: payload.rating,
-                    review_text: payload.comment || ''
-                })
-            });
+    try {
+        // 1. Send to backend database
+        // NOTE: Replace this with your actual Render app URL (e.g., https://onrender.com)
+        await fetch("https://onrender.com", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        }); // Line 190 stray comma successfully removed
 
-            alert("Review submitted for moderation!");
-            if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
-        } catch (err) {
-            console.error("Submission error:", err);
-            alert("Review recorded! (Pending moderation approval)");
-            if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
-        } finally {
-            if (btn) {
-                btn.disabled = false;
-                btn.textContent = "Post Review";
-            }
-            if (window.loadReviewsFeed && typeof window.loadReviewsFeed === 'function') {
-                window.loadReviewsFeed();
-            }
+        // 2. Safely shoot email copy to Formspree
+        await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                subject: "New Customer Review Submitted For Approval",
+                name: payload.name,
+                rating: payload.rating,
+                review_text: payload.comment
+            })
+        });
+
+        alert("Review submitted for moderation!");
+        if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
+
+    } catch (err) {
+        console.error("Submission error:", err);
+        alert("Review recorded! (Pending moderation approval)");
+        if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
+
+    } finally {
+        // Always reset button state and reload feed if functions exist
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Post Review";
         }
+        if (window.loadReviewsFeed && typeof window.loadReviewsFeed === 'function') {
+            window.loadReviewsFeed();
+        }
+    }
+};
 
 // Automatically fetch reviews on DOM load or view render
 if (document.readyState === "complete" || document.readyState === "interactive") {
