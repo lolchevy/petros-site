@@ -281,11 +281,11 @@ window.handleServiceModalSubmit = async function (e) {
   }
 
   try {
-    var res = await fetch(API_BASE + "/service-quote", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ service_name: serviceName, name: name, email: email, phone: phone, message: message })
-    });
+           var res = await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ service_name: serviceName, name: name, email: email, phone: phone, message: message })
+        });
     var data = await res.json();
     alert(data.message || "Service inquiry submitted successfully!");
     window.closeServiceModal();
@@ -323,10 +323,11 @@ window.handleCustomRequestSubmit = async function (e) {
   }
 
   try {
-    var res = await fetch(API_BASE + "/custom-request", {
-      method: "POST",
-      body: formData
-    });
+          var res = await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            headers: { "Accept": "application/json" },
+            body: formData
+        });
     var data = await res.json();
     alert(data.message || "Custom request submitted successfully!");
     if (e && e.target) e.target.reset();
