@@ -180,28 +180,40 @@ window.handleReviewFormSubmit = async function (e) {
     btn.textContent = "Transmitting Review...";
   }
 
-  try {
-    var res = await fetch(API_BASE + "/reviews", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    var data = await res.json();
-    alert(data.message || "Review submitted for moderation!");
-    if (e && e.target) e.target.reset();
-  } catch (err) {
-    console.warn("Backend API offline:", err);
-    alert("Review recorded locally. Email moderation notification simulated.");
-    if (e && e.target) e.target.reset();
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = "Post Review";
-    }
-    // Refresh feed list
-    window.loadReviewsFeed();
-  }
-};
+        try {
+            // 1. Send the review to your unique Render backend database for the Admin Panel
+            var res = await fetch("https://onrender.com", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            // 2. Shoot an instant email notification copy straight to your Formspree inbox!
+            await fetch("https://formspree.io/f/xnppnkow", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    subject: "New Customer Review Submitted For Approval",
+                    name: payload.name,
+                    rating: payload.rating,
+                    review_text: payload.comment
+                })
+            });
+
+            alert("Review submitted for moderation!");
+            if (e && e.target) e.target.reset();
+        } catch (err) {
+            console.warn("Backend API offline:", err);
+            alert("Network error. Please try submitting your review again!");
+            if (e && e.target) e.target.reset();
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = "Post Review";
+            }
+            // Refresh feed list
+            window.loadReviewsFeed();
+        }
 
 // Automatically fetch reviews on DOM load or view render
 if (document.readyState === "complete" || document.readyState === "interactive") {
