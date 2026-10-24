@@ -535,15 +535,15 @@ window.handleCareersSubmit = async function (e) {
   var btn = document.getElementById("car-btn");
   var formData = new FormData();
 
-  formData.append("applicant_name", document.getElementById("car-name") ? document.getElementById("car-name").value : "");
-  formData.append("applicant_email", document.getElementById("car-email") ? document.getElementById("car-email").value : "");
-  formData.append("applicant_phone", document.getElementById("car-phone") ? document.getElementById("car-phone").value : "");
-  formData.append("role", document.getElementById("car-role") ? document.getElementById("car-role").value : "");
+        formData.append("name", document.getElementById('fullName') ? document.getElementById('fullName').value : '');
+        formData.append("email", document.getElementById('emailAddress') ? document.getElementById('emailAddress').value : '');
+        formData.append("phone", document.getElementById('phoneNumber') ? document.getElementById('phoneNumber').value : '');
+        formData.append("message", document.getElementById('projectDescription') ? document.getElementById('projectDescription').value : '');
 
-  var fileInput = document.getElementById("car-resume");
-  if (fileInput && fileInput.files && fileInput.files[0]) {
-    formData.append("resume", fileInput.files[0]);
-  }
+        var fileInput = document.getElementById('projectFile') || document.querySelector('input[type="file"]');
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+            formData.append("attachment", fileInput.files[0]);
+        }
 
   if (btn) {
     btn.disabled = true;
