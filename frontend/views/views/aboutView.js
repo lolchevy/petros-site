@@ -30,7 +30,7 @@ function renderAboutView() {
                   <i class="fa-solid fa-award"></i>
                 </div>
                 <div>
-                  <div class="text-2xl font-extrabold text-blue-950 leading-none">20+ Years</div>
+                  <div class="text-2xl font-extrabold text-blue-950 leading-none">30+ Years</div>
                   <div class="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider">Quality Workmanship</div>
                 </div>
               </div>
@@ -41,7 +41,7 @@ function renderAboutView() {
               
               <div class="space-y-2">
                 <span class="text-dodgerblue text-xs sm:text-sm font-extrabold uppercase tracking-widest block">
-                  WHO WE ARE
+                  WHO IS MIKE PETROS
                 </span>
                 <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-950 leading-tight">
                   Building with Precision, Integrity, and Excellence
@@ -114,7 +114,7 @@ function renderAboutView() {
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             
             <div class="p-6 rounded-xl bg-gray-50 border border-gray-200/80">
-              <div class="text-3xl sm:text-4xl font-extrabold text-dodgerblue">250+</div>
+              <div class="text-3xl sm:text-4xl font-extrabold text-dodgerblue">1000+</div>
               <div class="text-xs font-bold text-blue-950 mt-1 uppercase tracking-wider">Projects Completed</div>
             </div>
 
