@@ -468,7 +468,7 @@ window.fetchReviews = async function () {
   if (!container) return;
 
   try {
-    var res = await fetch(API_BASE + "/reviews");
+    var res = await fetch("https://petros-site.onrender.com/");
     var data = await res.json();
     if (data.reviews && data.reviews.length > 0) {
       container.innerHTML = data.reviews.map(function (r) {
@@ -509,11 +509,7 @@ window.handleReviewSubmit = async function (e) {
   }
 
   try {
-    var res = await fetch(API_BASE + "/reviews", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    var res = await fetch("https://petros-site.onrender.com/");
     var data = await res.json();
     alert(data.message || "Review submitted for moderation!");
     if (e && e.target) e.target.reset();
@@ -555,10 +551,10 @@ window.handleCareersSubmit = async function (e) {
   }
 
   try {
-    var res = await fetch(API_BASE + "/apply", {
-      method: "POST",
-      body: formData
-    });
+   var res = await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            body: formData
+        });
     var data = await res.json();
     alert(data.message || "Application submitted successfully!");
     window.toggleCareersModal(false);
