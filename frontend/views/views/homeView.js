@@ -427,39 +427,57 @@ var API_BASE = "http://127.0.0.1:5000/api";
 
 // 1. QUICK QUOTE SUBMISSION HANDLER
 window.handleQuickQuoteSubmit = async function (e) {
-  if (e) e.preventDefault();
-  var btn = document.getElementById("qq-btn");
-  var payload = {
-    name: document.getElementById("qq-name") ? document.getElementById("qq-name").value : "",
-    email: document.getElementById("qq-email") ? document.getElementById("qq-email").value : "",
-    phone: document.getElementById("qq-phone") ? document.getElementById("qq-phone").value : "",
-    message: document.getElementById("qq-message") ? document.getElementById("qq-message").value : ""
-  };
+    if (e) e.preventDefault();
 
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = "Transmitting Request...";
-  }
+    var btn = document.getElementById("qq-btn");
 
-  try {
-    var res = await fetch(API_BASE + "/quote", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    var data = await res.json();
-    alert(data.message || "Quote submitted successfully!");
-    if (e && e.target) e.target.reset();
-  } catch (err) {
-    console.warn("API disconnect:", err);
-    alert("Estimate received locally.");
-    if (e && e.target) e.target.reset();
-  } finally {
+    var nameInput = document.getElementById("qq-name");
+    var emailInput = document.getElementById("qq-email");
+    var phoneInput = document.getElementById("qq-phone");
+    var messageInput = document.getElementById("qq-message");
+
+    var payload = {
+        name: nameInput ? nameInput.value : "",
+        email: emailInput ? emailInput.value : "",
+        phone: phoneInput ? phoneInput.value : "",
+        message: messageInput ? messageInput.value : ""
+    };
+
     if (btn) {
-      btn.disabled = false;
-      btn.textContent = "Submit Estimate Request";
+        btn.disabled = true;
+        btn.textContent = "Transmitting Request...";
     }
-  }
+
+    try {
+        // Redirecting endpoint away from broken API_BASE and straight to your active Formspree inbox
+        var res = await fetch("https://formspree.io/f/xnppnkow", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                subject: "New Quick Quote Estimate Request",
+                name: payload.name,
+                email: payload.email,
+                phone: payload.phone,
+                message: payload.message
+            })
+        });
+
+        if (!res.ok) throw new Error("Network request failed");
+
+        var data = await res.json();
+        alert("Quote submission completed successfully!");
+        if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
+
+    } catch (err) {
+        console.warn("API disconnect:", err);
+        alert("Estimate received locally.");
+        if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Submit Estimate Request";
+        }
+    }
 };
 
 // 2. FETCH AND DISPLAY REVIEWS
