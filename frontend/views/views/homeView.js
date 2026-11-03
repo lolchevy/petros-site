@@ -580,6 +580,14 @@ window.handleReviewFormSubmit = async function (e) {
 };
 
 // 4. CAREERS MODAL & RESUME HANDLER
+
+window.toggleCareersModal = function(show) {
+    var modal = document.getElementById('careersModal');
+    if (modal) {
+        modal.style.display = show ? 'flex' : 'none';
+    }
+};
+
 window.handleCareersSubmit = async function (e) {
     if (e) e.preventDefault();
 
