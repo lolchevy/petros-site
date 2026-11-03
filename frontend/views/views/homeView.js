@@ -607,13 +607,10 @@ window.handleCareersSubmit = async function (e) {
             formData.append("resume", fileInput.files[0]);
         }
 
-        // Send multi-part data payload stream directly to Formspree
+     // Send multi-part data payload stream directly to Formspree
         var res = await fetch("https://formspree.io/f/xnppnkow", {
             method: "POST",
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
+            body: formData
         });
 
         if (!res.ok) throw new Error("Formspree rejected the request stream.");
